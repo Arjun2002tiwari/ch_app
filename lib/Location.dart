@@ -18,6 +18,7 @@ class _LocationState extends State<Location> {
   late GoogleMapController _googleMapController;
   CameraPosition initialCameraPosition=CameraPosition(target: LatLng(37.42,-122.08),zoom: 14);
   Set<Marker> markers={};
+  bool flag=false;
 
   @override
   void initState(){
@@ -46,8 +47,9 @@ class _LocationState extends State<Location> {
     Position position=await Geolocator.getCurrentPosition();
     _googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target:LatLng(position.latitude, position.longitude),zoom:14)));
 
-    //markers.clear();
+    markers.clear();
     markers.add(Marker(markerId:MarkerId('currentLocation'),position: LatLng(position.latitude,position.longitude)));
+    flag=true;
   }
   @override
   Widget build(BuildContext context) {

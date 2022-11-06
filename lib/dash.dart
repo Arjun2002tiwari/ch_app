@@ -6,6 +6,7 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'Location.dart';
 import 'emergency.dart';
+import 'family.dart';
 
 class Dash extends StatefulWidget {
   @override
@@ -111,7 +112,10 @@ class InitState extends State<Dash> {
                   color: Colors.white.withOpacity(0.7),
                   margin: EdgeInsets.all(8.0),
                   child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => Family()));
+                      },
                       splashColor: Colors.orange,
                       child: Center(
                           child: Column(
@@ -127,7 +131,7 @@ class InitState extends State<Dash> {
                   margin: EdgeInsets.all(8.0),
                   child: InkWell(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Location()));
