@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:ch_app/laws.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -169,7 +170,28 @@ class InitState extends State<Dash> {
             ],
           )),
       bottomNavigationBar: CurvedNavigationBar(
-          items: [Icon(Icons.sos), Icon(Icons.safety_check), Icon(Icons.rule)],
+          items: [
+            IconButton(onPressed: (){
+              Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Dash()));
+            }, 
+            icon:Icon(Icons.sos),
+            ),
+            IconButton(
+            onPressed: (){}, 
+            icon:Icon(Icons.safety_check),
+            ), 
+            IconButton(onPressed: (){
+               Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Laws()));
+            }, 
+            icon:Icon(Icons.rule)
+            )
+          ],
           backgroundColor: Color(0xFFE66216),
           color: Colors.grey.withOpacity(0.9)),
     );
