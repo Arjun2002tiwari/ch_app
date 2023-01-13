@@ -16,8 +16,8 @@ class Family extends StatefulWidget {
 }
 
 class _FamilyState extends State<Family> {
-  String message = "This is a test message!";
-  List<String> recipents = [];
+  //String message = "This is a test message!";
+  //List<String> recipents = [];
   Database database=new Database();
 
   void _sendSMS(String message, List<String> recipents) async {
@@ -54,7 +54,7 @@ print(_result);
           print(contact.fullName);
           print(contact.phoneNumber!.number);
           database.uploadWork(contact.fullName!,contact.phoneNumber!.number!);
-          recipents.add(contact.phoneNumber!.number.toString());
+          //recipents.add(contact.phoneNumber!.number.toString());
           //_sendSMS(message, recipents);
         },
           splashColor: Colors.orange,
@@ -72,6 +72,15 @@ class ShowWork extends StatefulWidget {
 
 class _ShowWorkState extends State<ShowWork> {
   bool isSelected=false;
+  String message = "This is a test message!";
+  List<String> recipents = [];
+  void _sendSMS(String message, List<String> recipents) async {
+ String _result = await sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+print(_result);
+}
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -102,6 +111,11 @@ class _ShowWorkState extends State<ShowWork> {
             onLongPress: (){
             showAlert(context,x.id);
             },
+            onTap:(){
+              recipents.add(x['phone'].toString());
+              _sendSMS(message, recipents);
+              recipents.clear();
+            }
           );
           },
           );

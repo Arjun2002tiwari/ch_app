@@ -1,132 +1,194 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:ch_app/dash.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:pinput/pinput.dart';
 
-import 'dash.dart';
-
-class MyVerify extends StatefulWidget {
-  const MyVerify({Key? key}) : super(key: key); 
-
+class Otp extends StatefulWidget {
   @override
-  State<MyVerify> createState() => _MyVerifyState();
+  _OtpState createState() => _OtpState();
 }
 
-class _MyVerifyState extends State<MyVerify> {
+class _OtpState extends State<Otp> {
   @override
   Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
-      textStyle: TextStyle(
-          fontSize: 20,
-          color: Color.fromRGBO(30, 60, 87, 1),
-          fontWeight: FontWeight.w600),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
-      borderRadius: BorderRadius.circular(8),
-    );
-
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: Color.fromRGBO(234, 239, 243, 1),
-      ),
-    );
-
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color.fromARGB(255, 212, 210, 218),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_rounded,
-            color: Colors.black,
-          ),
+        title: Text(
+          "OTP VERIFICATION",
+          style: TextStyle(color: Colors.black),
         ),
-        elevation: 0,
+        backgroundColor: Colors.grey,
+        centerTitle: true,
       ),
-      body: Container(
-        margin: EdgeInsets.only(left: 25, right: 25),
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 25,
+              Align(
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 32,
+                    color: Color(0xFFE17B4B),
+                  ),
+                ),
               ),
-              Text(
-                "Phone Number Verification",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              Center(
+                child: SizedBox(
+                  height: 18,
+                ),
+              ),
+              SizedBox(
+                height: 24,
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
-                "We need to register your phone without getting started!",
+                "Enter your OTP code number",
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 106, 101, 98),
                 ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
-                height: 30,
+                height: 28,
               ),
-              Pinput(
-                length: 6,
-                // defaultPinTheme: defaultPinTheme,
-                // focusedPinTheme: focusedPinTheme,
-                // submittedPinTheme: submittedPinTheme,
-
-                showCursor: true,
-                onCompleted: (pin) => print(pin),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.orangeAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Dash()));
-                    },
-                    child: Text("Verify Phone Number")),
-              ),
-              Center(
-                child: Row(
+              Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
                   children: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            'phone',
-                            (route) => false,
-                          );
-                        },
-                        child: Center(
-                          child: Text(
-                            "Resend OTP",
-                            style: TextStyle(color: Colors.black, fontSize: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _textFieldOTP(first: true, last: false),
+                        SizedBox(
+                          width:1.0,
+                        ),
+                        _textFieldOTP(first: false, last: false),
+                        SizedBox(
+                          width:1.0,
+                        ),
+                        _textFieldOTP(first: false, last: false),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _textFieldOTP(first: true, last: false),
+                        SizedBox(
+                          width:1.0,
+                        ),
+                        _textFieldOTP(first: false, last: false),
+                        SizedBox(
+                          width:1.0,
+                        ),
+                        _textFieldOTP(first: false, last: false),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 22,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        print("button clicked!");
+                        Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Dash()));
+                      },
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xFFE17B4B)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24.0),
                           ),
-                        ))
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(14.0),
+                        child: Text(
+                          'Verify',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 18,
+              ),
+              Text(
+                "Didn't you receive any code?",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black38,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 18,
+              ),
+              Text(
+                "Resend New Code",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 191, 99, 8),
+                ),
+                textAlign: TextAlign.center,
+              ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _textFieldOTP({required bool first, last}) {
+    return Container(
+      height: 85,
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: TextField(
+          autofocus: true,
+          onChanged: (value) {
+            if (value.length == 1 && last == false) {
+              FocusScope.of(context).nextFocus();
+            }
+            if (value.length == 0 && first == false) {
+              FocusScope.of(context).previousFocus();
+            }
+          },
+          showCursor: false,
+          readOnly: false,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          keyboardType: TextInputType.number,
+          maxLength: 1,
+          decoration: InputDecoration(
+            counter: Offstage(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.black12),
+                borderRadius: BorderRadius.circular(12)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Color(0xFFE17B4B)),
+                borderRadius: BorderRadius.circular(12)),
           ),
         ),
       ),

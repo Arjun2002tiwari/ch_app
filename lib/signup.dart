@@ -133,7 +133,7 @@ class InitState extends State<Signup> {
             GestureDetector(
               onTap: () => {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => MyVerify()))
+                    MaterialPageRoute(builder: (context) => Otp()))
               },
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20, top: 70),

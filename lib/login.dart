@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dash.dart';
 import 'signup.dart';
 
 class Login extends StatefulWidget {
@@ -105,7 +106,10 @@ class InitState extends State<Login> {
                 onTap: () => {},
               )),
           GestureDetector(
-            onTap: () => {},
+            onTap: (){
+              Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Dash()));
+            },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 70),
               padding: EdgeInsets.only(left: 20, right: 20),

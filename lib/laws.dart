@@ -1,6 +1,10 @@
-import 'dart:ui';
+// ignore_for_file: prefer_const_constructors
 
+
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'dash.dart';
 
 class Laws extends StatefulWidget {
   @override
@@ -56,6 +60,33 @@ class InitState extends State<Laws> {
                     child: Text(
                         " SEXUAL HARRASMENT: The Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act was passed in 2013. It defined sexual harassment, lay down the procedures for a complaint and inquiry, and the action to be taken. It broadened the Vishaka guidelines, which were already in place."))),
           ],
-        ));
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
+          items: [
+            IconButton(onPressed: (){
+              Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Dash()));
+            }, 
+            icon:Icon(Icons.sos),
+            ),
+            IconButton(
+            onPressed: (){}, 
+            icon:Icon(Icons.safety_check),
+            ), 
+            IconButton(onPressed: (){
+               Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Laws()));
+            }, 
+            icon:Icon(Icons.rule)
+            )
+          ],
+          backgroundColor: Color(0xFFE66216),
+          color: Colors.grey.withOpacity(0.9)),
+        );
+
   }
 }
