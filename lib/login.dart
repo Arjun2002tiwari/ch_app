@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
+
 import 'package:flutter/material.dart';
+import 'Bottom_bar.dart';
 import 'dash.dart';
 import 'signup.dart';
 
@@ -25,8 +28,8 @@ class InitState extends State<Login> {
                       BorderRadius.only(bottomLeft: Radius.circular((90))),
                   color: Color(0xFFC2B9BF),
                   gradient: LinearGradient(colors: [
-                    (new Color(0xFFC8479D)),
-                    (new Color(0xFFE8884C))
+                    (const Color(0xFFC8479D)),
+                    (const Color(0xFFE8884C))
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
               child: Center(
                   child: Column(
@@ -108,7 +111,7 @@ class InitState extends State<Login> {
           GestureDetector(
             onTap: (){
               Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Dash()));
+                    MaterialPageRoute(builder: (context) => BottomBar()));
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 70),
@@ -117,7 +120,7 @@ class InitState extends State<Login> {
               height: 54,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    colors: [(new Color(0xFFC8479D)), (new Color(0xFFE8884C))],
+                    colors: [(const Color(0xFFC8479D)), (const Color(0xFFE8884C))],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight),
                 borderRadius: BorderRadius.circular(50),

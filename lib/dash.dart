@@ -143,7 +143,9 @@ class InitState extends State<Dash> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(Icons.location_on, size: 50.0),
-                          Text("Nearby Police Stations",
+                          Text("Nearby Police",
+                              style: new TextStyle(fontSize: 17.0)),
+                          Text("station",
                               style: new TextStyle(fontSize: 17.0))
                         ],
                       )))),
@@ -163,37 +165,14 @@ class InitState extends State<Dash> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Icon(Icons.call, size: 50.0),
-                          Text("Emergency Contacts",
+                          Text("Emergency",
+                              style: new TextStyle(fontSize: 17.0)),
+                          Text("Contacts",
                               style: new TextStyle(fontSize: 17.0))
                         ],
                       ))))
             ],
           )),
-      bottomNavigationBar: CurvedNavigationBar(
-          items: [
-            IconButton(onPressed: (){
-              Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Dash()));
-            }, 
-            icon:Icon(Icons.sos),
-            ),
-            IconButton(
-            onPressed: (){}, 
-            icon:Icon(Icons.safety_check),
-            ), 
-            IconButton(onPressed: (){
-               Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Laws()));
-            }, 
-            icon:Icon(Icons.rule)
-            )
-          ],
-          backgroundColor: Color(0xFFE66216),
-          color: Colors.grey.withOpacity(0.9)),
     );
   }
 }

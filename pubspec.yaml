@@ -47,6 +47,7 @@ dependencies:
   google_sign_in: ^5.4.0
   fluttercontactpicker: ^4.7.0
   flutter_sms: ^2.3.3
+  flip_card: ^0.6.0
 
 dev_dependencies:
   flutter_test:

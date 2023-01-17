@@ -3,6 +3,8 @@
 import 'package:ch_app/dash.dart';
 import 'package:flutter/material.dart';
 
+import 'Bottom_bar.dart';
+
 class Otp extends StatefulWidget {
   @override
   _OtpState createState() => _OtpState();
@@ -104,7 +106,7 @@ class _OtpState extends State<Otp> {
                       onPressed: () {
                         print("button clicked!");
                         Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Dash()));
+                    MaterialPageRoute(builder: (context) => BottomBar()));
                       },
                       style: ButtonStyle(
                         foregroundColor:
