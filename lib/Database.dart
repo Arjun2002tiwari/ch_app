@@ -8,5 +8,20 @@ class Database{
       'phone': phone,
     });
   }
+  Future<bool> checkuser(String user) async{
+    DocumentSnapshot<Map<String,dynamic>> document=await FirebaseFirestore.instance.collection('users').doc(user).get();
+    if(document.exists){
+      //print("present");
+      return true;
+    }
+    return false;
+  }
+
+  uploadUserInfo(String email,String phone) async {
+     await FirebaseFirestore.instance.collection('users').doc(email).set({
+      'email': email,
+      'phone':phone,
+    });
+  }
   
 }

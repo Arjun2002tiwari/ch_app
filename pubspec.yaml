@@ -48,6 +48,7 @@ dependencies:
   fluttercontactpicker: ^4.7.0
   flutter_sms: ^2.3.3
   flip_card: ^0.6.0
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:

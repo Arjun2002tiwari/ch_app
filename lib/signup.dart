@@ -1,7 +1,12 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
+import 'Database.dart';
 import 'otp.dart';
+import 'Auth.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -15,6 +20,13 @@ class InitState extends State<Signup> {
   }
 
   Widget initWidget() {
+  final TextEditingController _email =
+      TextEditingController();
+  final TextEditingController _number = TextEditingController();
+  final TextEditingController _password =
+      TextEditingController();
+      Database db=new Database();
+      Auth auth=new Auth();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -66,13 +78,14 @@ class InitState extends State<Signup> {
               ),
               alignment: Alignment.center,
               child: TextField(
+                controller:_email,
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                     icon: Icon(
                       Icons.person,
                       color: Color(0xffF5591F),
                     ),
-                    hintText: "Full Name",
+                    hintText: "Email",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none),
               ),
@@ -92,6 +105,7 @@ class InitState extends State<Signup> {
               ),
               alignment: Alignment.center,
               child: TextField(
+                controller:_number,
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                     icon: Icon(
@@ -118,6 +132,7 @@ class InitState extends State<Signup> {
               ),
               alignment: Alignment.center,
               child: TextField(
+                controller: _password,
                 obscureText: true,
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
@@ -131,9 +146,29 @@ class InitState extends State<Signup> {
               ),
             ),
             GestureDetector(
-              onTap: () => {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Otp()))
+              onTap:() async{
+                var isP=await db.checkuser(_email.text);
+                if(isP){
+                  Fluttertoast.showToast(
+                    msg: "User exist Already!",
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 20
+                  );
+                }
+                else{
+                  db.uploadUserInfo(_email.text, _number.text);
+                  auth.signupWithEmailAndPassword(_email.text,_password.text).then((val){
+                    Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Otp()));
+                  });
+                  Fluttertoast.showToast(
+                    msg: "Sign Up Completed!",
+                    backgroundColor: Colors.green[700],
+                    textColor: Colors.white,
+                    fontSize: 20
+                  );
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(left: 20, right: 20, top: 70),
