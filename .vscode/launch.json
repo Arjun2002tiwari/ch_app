@@ -9,7 +9,8 @@
             "name": "ch_app-master",
             "cwd": "ch_app-master",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart",
         },
         {
             "name": "ch_app-master (profile mode)",

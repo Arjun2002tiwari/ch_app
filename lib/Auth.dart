@@ -16,17 +16,34 @@ class Auth{
       print(e.toString());
     }
   }
-Future signInWithEmailAndPassword(String email,String password)async{
-  try{
-    UserCredential result=await _auth.signInWithEmailAndPassword(email: email, password: password);
-    User? user=result.user;
-    print(user?.uid);
-    return user;
-    }
-    catch(e){
-      print(e.toString());
-    }
-}
+// Future signInWithEmailAndPassword(String email,String password)async{
+//   try{
+//     UserCredential result=await _auth.signInWithEmailAndPassword(email: email, password: password);
+//     User? user=result.user;
+//     print(user?.uid);
+//     return user;
+//     }
+//     catch(e){
+//       print(e.toString());
+//     }
+// }
+// void signInWithEmailAndPassword() async {
+//   final FirebaseUser user = (await _auth.signInWithEmailAndPassword(
+//     email: _emailController.text,
+//     password: _passwordController.text,
+//   )).user;
+  
+//   if (user != null) {
+//     setState(() {
+//       _success = true;
+//       _userEmail = user.email;
+//     });
+//   } else {
+//     setState(() {
+//       _success = false;
+//     });
+//   }
+// }
 
 
   Future signOut() async {
