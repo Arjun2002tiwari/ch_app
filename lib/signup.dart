@@ -102,6 +102,7 @@ class InitState extends State<Signup> {
                       blurRadius: 50,
                       color: Colors.white)
                 ],
+                
               ),
               alignment: Alignment.center,
               child: TextField(

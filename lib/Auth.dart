@@ -24,7 +24,7 @@ Future signInWithEmailAndPassword(String email,String password)async{
     return user;
     }
     catch(e){
-      print(e.toString());
+      print(e.toString()+"");
     }
 }
 
