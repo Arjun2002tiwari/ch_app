@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-
 import 'Database.dart';
+import 'login.dart';
 import 'otp.dart';
 import 'Auth.dart';
+import 'dart:ui';
 
 class Signup extends StatefulWidget {
   @override
@@ -20,13 +20,12 @@ class InitState extends State<Signup> {
   }
 
   Widget initWidget() {
-  final TextEditingController _email =
-      TextEditingController();
-  final TextEditingController _number = TextEditingController();
-  final TextEditingController _password =
-      TextEditingController();
-      Database db=new Database();
-      Auth auth=new Auth();
+    final TextEditingController _name = TextEditingController();
+    final TextEditingController _email = TextEditingController();
+    final TextEditingController _number = TextEditingController();
+    final TextEditingController _password = TextEditingController();
+    Database db = new Database();
+    Auth auth = new Auth();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -55,7 +54,7 @@ class InitState extends State<Signup> {
                       margin: EdgeInsets.only(right: 20, top: 20),
                       alignment: Alignment.center,
                       child: Text(
-                        "Register Here",
+                        "Register",
                         style: TextStyle(fontSize: 30, color: Colors.white),
                       ),
                     )
@@ -64,7 +63,7 @@ class InitState extends State<Signup> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 70),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 50),
               padding: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
@@ -78,20 +77,20 @@ class InitState extends State<Signup> {
               ),
               alignment: Alignment.center,
               child: TextField(
-                controller:_email,
+                controller: _name,
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                     icon: Icon(
-                      Icons.person,
+                      Icons.play_arrow,
                       color: Color(0xffF5591F),
                     ),
-                    hintText: "Email",
+                    hintText: "Enter Your Full Name",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 70),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 50),
               padding: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
@@ -106,20 +105,47 @@ class InitState extends State<Signup> {
               ),
               alignment: Alignment.center,
               child: TextField(
-                controller:_number,
+                controller: _number,
                 cursorColor: Color(0xffF5591F),
                 decoration: InputDecoration(
                     icon: Icon(
                       Icons.phone,
                       color: Color(0xffF5591F),
                     ),
-                    hintText: "Phone Number",
+                    hintText: "Enter Your Phone Number",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 20, right: 20, top: 70),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.grey[200],
+                boxShadow: [
+                  BoxShadow(
+                      offset: Offset(0, 10),
+                      blurRadius: 50,
+                      color: Colors.white)
+                ],
+              ),
+              alignment: Alignment.center,
+              child: TextField(
+                controller: _email,
+                cursorColor: Color(0xffF5591F),
+                decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.person,
+                      color: Color(0xffF5591F),
+                    ),
+                    hintText: "Enter your Email",
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 20, right: 20, top: 50),
               padding: EdgeInsets.only(left: 20, right: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
@@ -147,32 +173,31 @@ class InitState extends State<Signup> {
               ),
             ),
             GestureDetector(
-              onTap:() async{
-                var isP=await db.checkuser(_email.text);
-                if(isP){
+              onTap: () async {
+                var isP = await db.checkuser(_email.text);
+                if (isP) {
                   Fluttertoast.showToast(
-                    msg: "User exist Already!",
-                    backgroundColor: Colors.red,
-                    textColor: Colors.white,
-                    fontSize: 20
-                  );
-                }
-                else{
-                  db.uploadUserInfo(_email.text, _number.text);
-                  auth.signupWithEmailAndPassword(_email.text,_password.text).then((val){
+                      msg: "User exist Already!",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 20);
+                } else {
+                  db.uploadUserInfo(_name.text, _email.text, _number.text);
+                  auth
+                      .signupWithEmailAndPassword(_email.text, _password.text)
+                      .then((val) {
                     Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Otp()));
+                        MaterialPageRoute(builder: (context) => Otp()));
                   });
                   Fluttertoast.showToast(
-                    msg: "Sign Up Completed!",
-                    backgroundColor: Colors.green[700],
-                    textColor: Colors.white,
-                    fontSize: 20
-                  );
+                      msg: "Sign Up Completed!",
+                      backgroundColor: Colors.green[700],
+                      textColor: Colors.white,
+                      fontSize: 20);
                 }
               },
               child: Container(
-                margin: EdgeInsets.only(left: 20, right: 20, top: 70),
+                margin: EdgeInsets.only(left: 20, right: 20, top: 50),
                 padding: EdgeInsets.only(left: 20, right: 20),
                 alignment: Alignment.center,
                 height: 54,
@@ -190,19 +215,22 @@ class InitState extends State<Signup> {
                   ],
                 ),
                 child: Text(
-                  "REGISTER",
+                  "Click here to Register",
                   style: TextStyle(),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already Member?"),
+                  Text("Already a Member?"),
                   GestureDetector(
-                    onTap: () => {},
+                    onTap: () => {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Login()))
+                    },
                     child: Text(
                       "Login Now",
                       style: TextStyle(color: Colors.orangeAccent),
