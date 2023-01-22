@@ -17,8 +17,9 @@ class Database{
     return false;
   }
 
-  uploadUserInfo(String email,String phone) async {
+  uploadUserInfo(String Name,String email,String phone) async {
      await FirebaseFirestore.instance.collection('users').doc(email).set({
+      'name':Name,
       'email': email,
       'phone':phone,
     });

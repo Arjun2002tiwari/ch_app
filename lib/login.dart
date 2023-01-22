@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
+import 'package:ch_app/otp.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'Bottom_bar.dart';
 import 'dash.dart';
 import 'signup.dart';
+import 'Auth.dart';
+import 'Database.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -11,12 +15,18 @@ class Login extends StatefulWidget {
 }
 
 class InitState extends State<Login> {
+  get auth => null;
+
   @override
   Widget build(BuildContext context) {
     return initWidget();
   }
 
   Widget initWidget() {
+     final TextEditingController _email = TextEditingController();
+     final TextEditingController _password = TextEditingController();
+      Database db = new Database();
+    Auth auth = new Auth();
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
@@ -65,6 +75,7 @@ class InitState extends State<Login> {
             ),
             alignment: Alignment.center,
             child: TextField(
+               controller: _email,
               cursorColor: Color(0xffF5591F),
               decoration: InputDecoration(
                   icon: Icon(
@@ -89,6 +100,7 @@ class InitState extends State<Login> {
             ),
             alignment: Alignment.center,
             child: TextField(
+              controller: _password,
               obscureText: true,
               cursorColor: Color(0xffF5591F),
               decoration: InputDecoration(
@@ -105,13 +117,14 @@ class InitState extends State<Login> {
               margin: EdgeInsets.only(top: 10, right: 20),
               alignment: Alignment.centerRight,
               child: GestureDetector(
-                child: Text("Forget Password"),
+                child: Text("Forget Password ?"),
                 onTap: () => {},
               )),
           GestureDetector(
-            onTap: (){
-              Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => BottomBar()));
+            onTap: () async {
+              
+                
+              
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 70),
@@ -132,7 +145,7 @@ class InitState extends State<Login> {
                 ],
               ),
               child: Text(
-                "LOGIN",
+                "Click here to Login",
                 style: TextStyle(),
               ),
             ),
