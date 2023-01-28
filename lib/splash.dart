@@ -1,9 +1,15 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
+
 import 'dart:async';
 
+import 'package:RAKSHAQ/Bottom_bar.dart';
+import 'package:RAKSHAQ/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 import 'login.dart';
+
 
 class Splash extends StatefulWidget {
   @override
@@ -14,6 +20,7 @@ class InitState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    Constant().setVar();
     startTimer();
   }
 
@@ -22,9 +29,16 @@ class InitState extends State<Splash> {
     return new Timer(duration, loginRoute);
   }
 
-  loginRoute() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
+  loginRoute() async {
+    final prefs=await SharedPreferences.getInstance();
+    if(prefs.getString('email')==null){
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Login()));
+    }
+    else{
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => BottomBar()));
+    }
   }
 
   @override

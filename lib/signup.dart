@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'Database.dart';
 import 'login.dart';
-import 'otp.dart';
 import 'Auth.dart';
-import 'dart:ui';
+import 'Bottom_bar.dart';
+import 'package:RAKSHAQ/constant.dart';
+
 
 class Signup extends StatefulWidget {
   @override
@@ -26,6 +29,7 @@ class InitState extends State<Signup> {
     final TextEditingController _password = TextEditingController();
     Database db = new Database();
     Auth auth = new Auth();
+    
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -178,22 +182,28 @@ class InitState extends State<Signup> {
                 if (isP) {
                   Fluttertoast.showToast(
                       msg: "User exist Already!",
-                      backgroundColor: Colors.red,
+                      backgroundColor: Color.fromARGB(255, 239, 92, 19),
                       textColor: Colors.white,
-                      fontSize: 20);
+                      );
                 } else {
+
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString('name', _name.text);
+                  prefs.setString('email', _email.text);
+                  Constant.name=_name.text;
+                  Constant.email=_email.text;
                   db.uploadUserInfo(_name.text, _email.text, _number.text);
                   auth
                       .signupWithEmailAndPassword(_email.text, _password.text)
                       .then((val) {
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Otp()));
+                        MaterialPageRoute(builder: (context) => BottomBar()));
                   });
                   Fluttertoast.showToast(
                       msg: "Sign Up Completed!",
-                      backgroundColor: Colors.green[700],
+                      backgroundColor: Color.fromARGB(255, 239, 92, 19),
                       textColor: Colors.white,
-                      fontSize: 20);
+                    );
                 }
               },
               child: Container(

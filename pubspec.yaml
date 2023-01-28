@@ -1,4 +1,4 @@
-name: ch_app
+name: RAKSHAQ
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -49,6 +49,8 @@ dependencies:
   flutter_sms: ^2.3.3
   flip_card: ^0.6.0
   fluttertoast: ^8.1.1
+  shared_preferences: ^2.0.17
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

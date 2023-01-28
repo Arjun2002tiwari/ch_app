@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously
 
-import 'package:ch_app/otp.dart';
+import 'package:RAKSHAQ/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Bottom_bar.dart';
 import 'dash.dart';
 import 'signup.dart';
@@ -23,9 +24,9 @@ class InitState extends State<Login> {
   }
 
   Widget initWidget() {
-     final TextEditingController _email = TextEditingController();
-     final TextEditingController _password = TextEditingController();
-      Database db = new Database();
+    final TextEditingController _email = TextEditingController();
+    final TextEditingController _password = TextEditingController();
+    Database db = new Database();
     Auth auth = new Auth();
     return Scaffold(
       body: SingleChildScrollView(
@@ -75,7 +76,7 @@ class InitState extends State<Login> {
             ),
             alignment: Alignment.center,
             child: TextField(
-               controller: _email,
+              controller: _email,
               cursorColor: Color(0xffF5591F),
               decoration: InputDecoration(
                   icon: Icon(
@@ -122,9 +123,26 @@ class InitState extends State<Login> {
               )),
           GestureDetector(
             onTap: () async {
-              
-                
-              
+              var isP = await db.finduser(_email.text);
+              auth
+                  .signInWithEmailAndPassword(_email.text, _password.text)
+                  .then((value) async {
+                if (value != null) {
+                  final prefs = await SharedPreferences.getInstance();
+                  prefs.setString('name', isP.toString());
+                  prefs.setString('email', _email.text);
+                  Constant.name = isP.toString();
+                  Constant.email = _email.text;
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (context) => BottomBar()));
+                } else {
+                  Fluttertoast.showToast(
+                    msg: "Please check your credentials!",
+                    backgroundColor:Color.fromARGB(255, 239, 92, 19),
+                    textColor: Colors.white,
+                  );
+                }
+              });
             },
             child: Container(
               margin: EdgeInsets.only(left: 20, right: 20, top: 70),
@@ -132,10 +150,10 @@ class InitState extends State<Login> {
               alignment: Alignment.center,
               height: 54,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [(const Color(0xFFC8479D)), (const Color(0xFFE8884C))],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight),
+                gradient: LinearGradient(colors: [
+                  (const Color(0xFFC8479D)),
+                  (const Color(0xFFE8884C))
+                ], begin: Alignment.centerLeft, end: Alignment.centerRight),
                 borderRadius: BorderRadius.circular(50),
                 boxShadow: [
                   BoxShadow(

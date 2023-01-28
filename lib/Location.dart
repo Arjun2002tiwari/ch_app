@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Location extends StatefulWidget {
   const Location({super.key});
@@ -15,42 +14,38 @@ class Location extends StatefulWidget {
 
 class _LocationState extends State<Location> {
 
-  late GoogleMapController _googleMapController;
-  CameraPosition initialCameraPosition=CameraPosition(target: LatLng(37.42,-122.08),zoom: 14);
-  Set<Marker> markers={};
-  bool flag=false;
+  late Position _currentPosition;
+  List policeStations=[];
 
   @override
   void initState(){
     super.initState();
-    _determinePos();
+    _getCurrentLocation(); 
   }
+  _getCurrentLocation() async {
+    try{
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high); 
+      _currentPosition = position; 
+      print(_currentPosition);
+      String url = "https://nominatim.openstreetmap.org/search?q=police+station&format=json&limit=20&lat=${_currentPosition.latitude}&lon=${_currentPosition.longitude}";
+    
+    Uri uri = Uri.parse(url);
+     var response = await http.get(uri);
 
-  void _determinePos() async{
-    bool serviceEnanbled;
-    LocationPermission permission;
+     var jsonData = jsonDecode(response.body);
 
-    serviceEnanbled=await Geolocator.isLocationServiceEnabled();
+     setState(() {
+       policeStations = jsonData;
+       print(policeStations[5]['display_name']);
+     }); 
 
-    if(!serviceEnanbled){
-      print("location services are disabled!");
-    }
-
-    permission=await Geolocator.checkPermission();
-    if(permission==LocationPermission.denied){
-      permission=await Geolocator.requestPermission();
-
-      if(permission==LocationPermission.denied){
-        print("location services are disabled!");
-      }
-    }
-    Position position=await Geolocator.getCurrentPosition();
-    _googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target:LatLng(position.latitude, position.longitude),zoom:14)));
-
-    markers.clear();
-    markers.add(Marker(markerId:MarkerId('currentLocation'),position: LatLng(position.latitude,position.longitude)));
-    flag=true;
+    }catch(e){     
+      print(e); 
+    }    
   }
+  
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +53,15 @@ class _LocationState extends State<Location> {
         title:Text("map"),
         centerTitle: true,
       ),
-      body:GoogleMap(
-        initialCameraPosition: initialCameraPosition,
-        markers: markers,
-        zoomControlsEnabled: false,
-        mapType: MapType.normal,
-        onMapCreated: (GoogleMapController controller) {
-          _googleMapController=controller;
-        }),
+      body: policeStations.isEmpty? Center( child: CircularProgressIndicator(), ) : ListView.builder( 
+        itemCount: policeStations.isEmpty? 0 : policeStations.length, itemBuilder: (context, index) 
+        { 
+          return Card( 
+            child: Padding( 
+              padding: const EdgeInsets.all(8), 
+              child: Text("${policeStations[index]["display_name"]}"),
+            ),);
+        },),
     );
   }
 }

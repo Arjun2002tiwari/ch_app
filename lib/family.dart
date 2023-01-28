@@ -2,11 +2,12 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'Database.dart';
+import 'package:geolocator/geolocator.dart';
+
+import 'constant.dart';
 
 class Family extends StatefulWidget {
   const Family({super.key});
@@ -16,27 +17,17 @@ class Family extends StatefulWidget {
 }
 
 class _FamilyState extends State<Family> {
-  //String message = "This is a test message!";
-  //List<String> recipents = [];
   Database database=new Database();
-
-  void _sendSMS(String message, List<String> recipents) async {
- String _result = await sendSMS(message: message, recipients: recipents)
-        .catchError((onError) {
-      print(onError);
-    });
-print(_result);
-}
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Family Member",
-          style: TextStyle(color: Colors.black),
+          "FAMILY MEMBERS",
+          style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.grey[500],
+        backgroundColor: Colors.black,
         centerTitle: true,
       ),
       body:SingleChildScrollView(
@@ -58,8 +49,8 @@ print(_result);
           //_sendSMS(message, recipents);
         },
           splashColor: Colors.orange,
-          backgroundColor: Colors.grey,
-          child: Icon(Icons.person_add_alt_1_rounded,color:Colors.black),
+          backgroundColor: Colors.black,
+          child: Icon(Icons.person_add_alt_1_rounded,color:Colors.white),
         ),
     );
   }
@@ -72,7 +63,25 @@ class ShowWork extends StatefulWidget {
 
 class _ShowWorkState extends State<ShowWork> {
   bool isSelected=false;
-  String message = "This is a test message!";
+  late Position _currentPosition;
+  
+  void initState(){
+    super.initState();
+    _getCurrentLocation();
+  }
+  _getCurrentLocation() async {
+    try{
+
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high); 
+ 
+      _currentPosition = position; 
+      print("here is the location:$_currentPosition");    
+
+    }catch(e){     
+      print(e); 
+    }    
+
+  }
   List<String> recipents = [];
   void _sendSMS(String message, List<String> recipents) async {
  String _result = await sendSMS(message: message, recipients: recipents)
@@ -84,7 +93,7 @@ print(_result);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream:FirebaseFirestore.instance.collection('contacts').doc("arjuntiwari754@gmail.com").collection('list').snapshots(),
+      stream:FirebaseFirestore.instance.collection('contacts').doc(Constant.email).collection('list').snapshots(),
       builder:(context,snapshot){
         if(!snapshot.hasData){  
           return Center(
@@ -113,6 +122,8 @@ print(_result);
             },
             onTap:(){
               recipents.add(x['phone'].toString());
+              String url="https://www.google.com/maps/search/?api=1&query=${_currentPosition.latitude},${_currentPosition.longitude}";
+              String message = "Hi,Iam in trouble,please help me by reaching to below location urgently:$url";
               _sendSMS(message, recipents);
               recipents.clear();
             }

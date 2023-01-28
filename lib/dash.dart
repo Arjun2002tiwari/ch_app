@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:ch_app/laws.dart';
+import 'package:RAKSHAQ/constant.dart';
+import 'package:RAKSHAQ/laws.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Location.dart';
 import 'emergency.dart';
 import 'family.dart';
+import 'Auth.dart';
+import 'login.dart';
 
 class Dash extends StatefulWidget {
   @override
@@ -21,6 +25,8 @@ class InitState extends State<Dash> {
   }
 
   Widget initWidget() {
+    Auth auth=new Auth();
+    //Constant con=new Constant();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -45,18 +51,11 @@ class InitState extends State<Dash> {
                 ),
               ),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(""),
+                backgroundImage: AssetImage("images/pic.png"),
                 backgroundColor: Colors.grey,
               ),
-              accountName: Text("arjun"),
-              accountEmail: Text("arjuntiwari754@gmail.com"),
-            ),
-            ListTile(
-              title: Text("Profile"),
-              trailing: Icon(Icons.person),
-              // onTap: (){
-
-              // },
+              accountName: Text(Constant.name),
+              accountEmail: Text(Constant.email),
             ),
             ListTile(
               title: Text("About"),
@@ -68,11 +67,11 @@ class InitState extends State<Dash> {
             ListTile(
               title: Text("Log Out"),
               trailing: Icon(Icons.logout_outlined, color: Colors.grey),
-              // onTap: (){
-              //   setState(() {
-              //     sort=!sort;
-              //   });
-              //},
+              onTap: (){
+                auth.signOut();
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                                builder: (context) => Login()));
+              },
             ),
           ],
         ),
@@ -154,7 +153,7 @@ class InitState extends State<Dash> {
                   margin: EdgeInsets.all(8.0),
                   child: InkWell(
                       onTap: () {
-                        Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Emergency()));
